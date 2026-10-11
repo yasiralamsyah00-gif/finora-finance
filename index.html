@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finora - Smart Finance Dashboard</title>
+  <title>Finora - Smart Finance App</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,12 +29,16 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
   </style>
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex">
+
+  <!-- ================= SIDEBAR ================= -->
   <aside class="w-64 bg-white border-r border-slate-100 flex flex-col justify-between p-6 shrink-0 hidden lg:flex min-h-screen">
     <div>
-      <div class="flex items-center gap-3 mb-8">
+      <div class="flex items-center gap-3 mb-8 cursor-pointer" onclick="switchTab('dashboard')">
         <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-200">
           <i data-lucide="leaf" class="w-6 h-6"></i>
         </div>
@@ -43,34 +47,61 @@
           <p class="text-[10px] text-slate-400 font-medium tracking-wide mt-1">Smart. Finance. Better Tomorrow.</p>
         </div>
       </div>
-      <nav class="space-y-1.5">
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-700 text-white font-semibold shadow-sm transition"><i data-lucide="layout-dashboard" class="w-5 h-5"></i><span class="text-sm">Dashboard</span></a>
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition"><i data-lucide="arrow-left-right" class="w-5 h-5"></i><span class="text-sm">Transactions</span></a>
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition"><i data-lucide="pie-chart" class="w-5 h-5"></i><span class="text-sm">Budgets</span></a>
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition"><i data-lucide="target" class="w-5 h-5"></i><span class="text-sm">Goals</span></a>
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition"><i data-lucide="trending-up" class="w-5 h-5"></i><span class="text-sm">Investments</span></a>
-        <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition"><i data-lucide="file-text" class="w-5 h-5"></i><span class="text-sm">Reports</span></a>
+
+      <nav class="space-y-1.5" id="sidebarNav">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-700 text-white font-semibold shadow-sm transition">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span class="text-sm">Dashboard</span>
+        </button>
+        <button onclick="switchTab('transactions')" id="nav-transactions" class="nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition">
+          <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
+          <span class="text-sm">Transactions</span>
+        </button>
+        <button onclick="switchTab('budgets')" id="nav-budgets" class="nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition">
+          <i data-lucide="pie-chart" class="w-5 h-5"></i>
+          <span class="text-sm">Budgets (RAB)</span>
+        </button>
+        <button onclick="switchTab('goals')" id="nav-goals" class="nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition">
+          <i data-lucide="target" class="w-5 h-5"></i>
+          <span class="text-sm">Saving Goals</span>
+        </button>
+        <button onclick="switchTab('reports')" id="nav-reports" class="nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition">
+          <i data-lucide="file-text" class="w-5 h-5"></i>
+          <span class="text-sm">Reports</span>
+        </button>
       </nav>
     </div>
+
+    <!-- Bottom Promo Banner -->
     <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-4 text-center relative">
-      <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2"><i data-lucide="sprout" class="w-5 h-5"></i></div>
+      <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2">
+        <i data-lucide="sprout" class="w-5 h-5"></i>
+      </div>
       <h3 class="text-xs font-bold text-slate-900">Small steps<br>build big wealth</h3>
       <p class="text-[10px] text-slate-500 mt-1 mb-3">Track. Save. Grow.</p>
-      <button class="w-full py-2 bg-emerald-800 text-white text-[11px] font-semibold rounded-xl hover:bg-emerald-900 transition shadow-sm">Set a Goal &rarr;</button>
+      <button onclick="switchTab('goals')" class="w-full py-2 bg-emerald-800 text-white text-[11px] font-semibold rounded-xl hover:bg-emerald-900 transition shadow-sm">
+        Set a Goal &rarr;
+      </button>
     </div>
   </aside>
 
+  <!-- ================= MAIN CONTENT ================= -->
   <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+    <!-- Topbar -->
     <header class="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-8 shrink-0">
       <div class="relative w-96">
         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-        <input type="text" placeholder="Search transactions, categories, or anything..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20">
+        <input type="text" id="globalSearch" oninput="handleSearch(this.value)" placeholder="Search transactions, categories, or anything..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20">
       </div>
-      <div class="flex items-center gap-5">
-        <button class="relative w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600"><i data-lucide="bell" class="w-4 h-4"></i><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-rose-500"></span></button>
-        <div class="flex items-center gap-3 pl-4 border-l border-slate-100">
+
+      <div class="flex items-center gap-4">
+        <button onclick="openModal('addModal')" class="flex items-center gap-2 px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold shadow-sm transition">
+          <i data-lucide="plus" class="w-4 h-4"></i> Catat Baru
+        </button>
+        <div class="flex items-center gap-3 pl-3 border-l border-slate-100">
           <div class="w-10 h-10 rounded-full bg-emerald-200 border-2 border-white shadow-sm flex items-center justify-center text-emerald-800 font-bold text-sm">YA</div>
-          <div class="text-left">
+          <div class="text-left hidden sm:block">
             <h4 class="text-xs font-bold text-slate-900 leading-tight">Yasir Alamsyah</h4>
             <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full inline-block mt-0.5">VIP Executive</span>
           </div>
@@ -78,152 +109,440 @@
       </div>
     </header>
 
+    <!-- CONTENT BODY CONTAINER -->
     <div class="p-8 space-y-6">
-      <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-        <div class="xl:col-span-5 bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900 rounded-3xl p-6 text-white shadow-xl shadow-emerald-950/10 flex flex-col justify-between relative overflow-hidden">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-medium text-emerald-200">Good Morning, Yasir ☀️</span>
-              <span class="text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/20 px-2.5 py-1 rounded-full flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Healthy</span>
-            </div>
-            <p class="text-[11px] text-emerald-200/80 mb-6">Financial Dashboard Aktif & Sinkron dengan Telegram.</p>
-            <span class="text-xs text-emerald-200 block mb-1">Total Balance</span>
-            <div class="flex items-baseline gap-3 mb-6">
-              <h2 class="text-3xl font-extrabold tracking-tight">Rp 2.581.710</h2>
-              <span class="text-xs font-semibold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">&uarr; 12.5%</span>
-            </div>
-          </div>
-          <div class="grid grid-cols-5 gap-2 pt-4 border-t border-emerald-700/50">
-            <button class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center"><i data-lucide="send" class="w-4 h-4"></i></div>Send</button>
-            <button class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center"><i data-lucide="plus-circle" class="w-4 h-4"></i></div>Add</button>
-            <button class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center"><i data-lucide="receipt" class="w-4 h-4"></i></div>Bills</button>
-            <button class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center"><i data-lucide="repeat" class="w-4 h-4"></i></div>Transfer</button>
-            <button class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center"><i data-lucide="qr-code" class="w-4 h-4"></i></div>QRIS</button>
-          </div>
-        </div>
 
-        <div class="xl:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-bold text-slate-900">Spending Overview</h3>
-            <span class="text-xs text-slate-400 bg-slate-50 px-2.5 py-1 rounded-lg font-medium">October 2026</span>
-          </div>
-          <div class="flex items-center gap-4 my-auto">
-            <div class="w-36 h-36 relative shrink-0">
-              <canvas id="spendingDonut"></canvas>
-              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Total</span>
-                <span class="text-xs font-extrabold text-slate-900">Rp 5.14M</span>
+      <!-- ================= 1. TAB: DASHBOARD ================= -->
+      <section id="tab-dashboard" class="tab-content active space-y-6">
+        <!-- ROW 1 -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <!-- Hero Card -->
+          <div class="xl:col-span-5 bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900 rounded-3xl p-6 text-white shadow-xl shadow-emerald-950/10 flex flex-col justify-between relative overflow-hidden">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-medium text-emerald-200">Good Morning, Yasir ☀️</span>
+                <span class="text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/20 px-2.5 py-1 rounded-full flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Healthy</span>
+              </div>
+              <p class="text-[11px] text-emerald-200/80 mb-6">Financial Dashboard Aktif & Sinkron dengan Telegram.</p>
+              <span class="text-xs text-emerald-200 block mb-1">Total Balance (Bank & Dompet)</span>
+              <div class="flex items-baseline gap-3 mb-6">
+                <h2 class="text-3xl font-extrabold tracking-tight" id="heroBalance">Rp 1.714.819</h2>
+                <span class="text-xs font-semibold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">&uarr; Real-Time</span>
               </div>
             </div>
-            <div class="flex-1 space-y-1.5 text-[11px]">
-              <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-600"></span> Keluarga</div><span class="font-bold text-slate-700">77%</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Pokok</div><span class="font-bold text-slate-700">11%</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Lifestyle</div><span class="font-bold text-slate-700">2%</span></div>
-              <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-indigo-500"></span> Masa Depan</div><span class="font-bold text-slate-700">10%</span></div>
+
+            <!-- Quick Action Buttons (Semua Berfungsi) -->
+            <div class="grid grid-cols-5 gap-2 pt-4 border-t border-emerald-700/50">
+              <button onclick="openModal('addModal')" class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center"><i data-lucide="plus-circle" class="w-4 h-4"></i></div>Tambah</button>
+              <button onclick="openModal('transferModal')" class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center"><i data-lucide="repeat" class="w-4 h-4"></i></div>Transfer</button>
+              <button onclick="switchTab('budgets')" class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center"><i data-lucide="pie-chart" class="w-4 h-4"></i></div>RAB</button>
+              <button onclick="switchTab('goals')" class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center"><i data-lucide="target" class="w-4 h-4"></i></div>Celengan</button>
+              <button onclick="switchTab('transactions')" class="flex flex-col items-center gap-1 text-[10px] text-emerald-100 hover:text-white transition"><div class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center"><i data-lucide="receipt" class="w-4 h-4"></i></div>Riwayat</button>
             </div>
+          </div>
+
+          <!-- Spending Overview -->
+          <div class="xl:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-sm font-bold text-slate-900">Spending Overview</h3>
+              <span class="text-xs text-slate-400 bg-slate-50 px-2.5 py-1 rounded-lg font-medium">October 2026</span>
+            </div>
+            <div class="flex items-center gap-4 my-auto">
+              <div class="w-36 h-36 relative shrink-0">
+                <canvas id="spendingDonut"></canvas>
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <span class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Total</span>
+                  <span class="text-xs font-extrabold text-slate-900">Rp 4.11M</span>
+                </div>
+              </div>
+              <div class="flex-1 space-y-1.5 text-[11px]">
+                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-600"></span> Keluarga</div><span class="font-bold text-slate-700">73%</span></div>
+                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Pokok</div><span class="font-bold text-slate-700">14%</span></div>
+                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Lifestyle</div><span class="font-bold text-slate-700">1%</span></div>
+                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-indigo-500"></span> Masa Depan</div><span class="font-bold text-slate-700">12%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Saving Goals Widget -->
+          <div class="xl:col-span-3 bg-gradient-to-br from-emerald-50/70 to-teal-50 border border-emerald-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mb-3 shadow-md shadow-emerald-200"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
+              <h3 class="text-sm font-bold text-slate-900">Saving Goals</h3>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Celengan Qurban, Liburan, dan Servis Motor aktif terpantau!</p>
+            </div>
+            <button onclick="switchTab('goals')" class="w-full mt-4 py-2.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition flex items-center justify-center gap-2 shadow-sm">
+              Lihat Target &rarr;
+            </button>
           </div>
         </div>
 
-        <div class="xl:col-span-3 bg-gradient-to-br from-emerald-50/70 to-teal-50 border border-emerald-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
-          <div>
-            <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mb-3 shadow-md shadow-emerald-200"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
-            <h3 class="text-sm font-bold text-slate-900">Saving Goals</h3>
-            <p class="text-xs text-slate-500 mt-1 leading-relaxed">Celengan Qurban, Liburan, dan Servis Motor aktif terpantau!</p>
+        <!-- ROW 2 -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <!-- Monthly Trend -->
+          <div class="xl:col-span-5 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold text-slate-900">Monthly Cashflow Trend</h3>
+              <span class="text-xs text-slate-400 font-medium">2026</span>
+            </div>
+            <div class="h-48 w-full"><canvas id="monthlyBar"></canvas></div>
           </div>
-          <button class="w-full mt-4 py-2.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition flex items-center justify-center gap-2 shadow-sm">
-            Lihat Target &rarr;
+
+          <!-- Budget Progress Gauge -->
+          <div class="xl:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-sm font-bold text-slate-900">Budget Progress</h3>
+              <span class="text-xs font-semibold text-emerald-600">On Track</span>
+            </div>
+            <div class="flex items-center gap-4 my-auto">
+              <div class="w-28 h-28 relative flex items-center justify-center">
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path class="text-slate-100" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path class="text-emerald-600" stroke-dasharray="68, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div class="absolute flex flex-col items-center">
+                  <span class="text-lg font-extrabold text-slate-900">68%</span>
+                  <span class="text-[9px] text-slate-400 font-semibold uppercase">Overall</span>
+                </div>
+              </div>
+              <div class="flex-1 space-y-2 text-[11px]">
+                <div>
+                  <div class="flex justify-between mb-1 font-medium"><span>Keluarga</span><span class="font-bold">100%</span></div>
+                  <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-emerald-600 rounded-full w-full"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1 font-medium"><span>Listrik & Net</span><span class="font-bold">78%</span></div>
+                  <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-500 rounded-full w-[78%]"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="p-3 bg-emerald-50/60 rounded-xl flex items-center gap-2.5 text-xs text-emerald-800">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+              <span class="text-[11px]"><strong>Zero-Based Budget Aktif:</strong> Setiap rupiah teralokasi tepat.</span>
+            </div>
+          </div>
+
+          <!-- Upcoming Bills -->
+          <div class="xl:col-span-3 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold text-slate-900">Upcoming Bills</h3>
+              <span class="text-xs font-semibold text-emerald-600">3 Tagihan</span>
+            </div>
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><i data-lucide="zap" class="w-4 h-4"></i></div>
+                  <div><h4 class="text-xs font-bold text-slate-900">Listrik PLN</h4><span class="text-[10px] text-slate-400">Due in 3 days</span></div>
+                </div>
+                <span class="text-xs font-extrabold text-slate-800">Rp 200.000</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><i data-lucide="wifi" class="w-4 h-4"></i></div>
+                  <div><h4 class="text-xs font-bold text-slate-900">IndiHome</h4><span class="text-[10px] text-slate-400">Due in 5 days</span></div>
+                </div>
+                <span class="text-xs font-extrabold text-slate-800">Rp 375.600</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center"><i data-lucide="graduation-cap" class="w-4 h-4"></i></div>
+                  <div><h4 class="text-xs font-bold text-slate-900">Sekolah Ridwan</h4><span class="text-[10px] text-slate-400">Due in 10 days</span></div>
+                </div>
+                <span class="text-xs font-extrabold text-slate-800">Rp 300.000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. TAB: TRANSACTIONS ================= -->
+      <section id="tab-transactions" class="tab-content bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Riwayat Transaksi Harian</h3>
+            <p class="text-xs text-slate-400">Semua catatan transaksi belanja dan mutasi dompet Anda</p>
+          </div>
+          <button onclick="openModal('addModal')" class="px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-semibold hover:bg-emerald-800 transition">
+            + Tambah Transaksi
           </button>
         </div>
-      </div>
 
-      <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-        <div class="xl:col-span-5 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-bold text-slate-900">Monthly Cashflow Trend</h3>
-            <span class="text-xs text-slate-400 font-medium">2026</span>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs" id="txTable">
+            <thead>
+              <tr class="text-slate-400 border-b border-slate-100 font-semibold text-[11px]">
+                <th class="py-3">Tanggal</th>
+                <th class="py-3">Akun / Dompet</th>
+                <th class="py-3">Keterangan</th>
+                <th class="py-3">Kategori</th>
+                <th class="py-3 text-right">Nominal</th>
+                <th class="py-3 text-center">Tipe</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50 text-slate-700" id="txBody">
+              <!-- Baris Transaksi Dinamis -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= 3. TAB: BUDGETS (RAB) ================= -->
+      <section id="tab-budgets" class="tab-content bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Rencana Anggaran Biaya (RAB)</h3>
+            <p class="text-xs text-slate-400">Target Alokasi Zero-Based Budget Bulan Ini (Pas Rp 6.000.000)</p>
           </div>
-          <div class="h-48 w-full"><canvas id="monthlyBar"></canvas></div>
+          <span class="text-xs font-semibold px-3 py-1 bg-emerald-50 text-emerald-700 rounded-xl">Oktober 2026</span>
         </div>
 
-        <div class="xl:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-bold text-slate-900">Budget Progress</h3>
-            <span class="text-xs font-semibold text-emerald-600">On Track</span>
-          </div>
-          <div class="flex items-center gap-4 my-auto">
-            <div class="w-28 h-28 relative flex items-center justify-center">
-              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                <path class="text-slate-100" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path class="text-emerald-600" stroke-dasharray="68, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-              </svg>
-              <div class="absolute flex flex-col items-center">
-                <span class="text-lg font-extrabold text-slate-900">68%</span>
-                <span class="text-[9px] text-slate-400 font-semibold uppercase">Overall</span>
-              </div>
-            </div>
-            <div class="flex-1 space-y-2 text-[11px]">
-              <div>
-                <div class="flex justify-between mb-1 font-medium"><span>Keluarga</span><span class="font-bold">100%</span></div>
-                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-emerald-600 rounded-full w-full"></div></div>
-              </div>
-              <div>
-                <div class="flex justify-between mb-1 font-medium"><span>Listrik & Net</span><span class="font-bold">78%</span></div>
-                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-500 rounded-full w-[78%]"></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="p-3 bg-emerald-50/60 rounded-xl flex items-center gap-2.5 text-xs text-emerald-800">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
-            <span class="text-[11px]"><strong>Zero-Based Budget Aktif:</strong> Setiap rupiah teralokasi tepat.</span>
+        <div class="space-y-3" id="rabListContainer">
+          <!-- 9 Pos Anggaran akan dirender oleh JavaScript -->
+        </div>
+      </section>
+
+      <!-- ================= 4. TAB: SAVING GOALS ================= -->
+      <section id="tab-goals" class="tab-content bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Celengan Impian & Saving Goals</h3>
+          <p class="text-xs text-slate-400">Target tabungan khusus yang terpisah dari kas belanja harian</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="goalsContainer">
+          <!-- Card Goals akan dirender JavaScript -->
+        </div>
+      </section>
+
+      <!-- ================= 5. TAB: REPORTS ================= -->
+      <section id="tab-reports" class="tab-content bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Laporan Keuangan Eksekutif</h3>
+            <p class="text-xs text-slate-400">Ringkasan kesehatan finansial & rasio tabungan</p>
           </div>
         </div>
 
-        <div class="xl:col-span-3 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-bold text-slate-900">Upcoming Bills</h3>
-            <span class="text-xs font-semibold text-emerald-600">3 Tagihan</span>
-          </div>
-          <div class="space-y-3.5">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><i data-lucide="zap" class="w-4 h-4"></i></div>
-                <div><h4 class="text-xs font-bold text-slate-900">Listrik PLN</h4><span class="text-[10px] text-slate-400">Due in 3 days</span></div>
-              </div>
-              <span class="text-xs font-extrabold text-slate-800">Rp 200.000</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><i data-lucide="wifi" class="w-4 h-4"></i></div>
-                <div><h4 class="text-xs font-bold text-slate-900">IndiHome</h4><span class="text-[10px] text-slate-400">Due in 5 days</span></div>
-              </div>
-              <span class="text-xs font-extrabold text-slate-800">Rp 375.600</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center"><i data-lucide="graduation-cap" class="w-4 h-4"></i></div>
-                <div><h4 class="text-xs font-bold text-slate-900">Sekolah Ridwan</h4><span class="text-[10px] text-slate-400">Due in 10 days</span></div>
-              </div>
-              <span class="text-xs font-extrabold text-slate-800">Rp 300.000</span>
-            </div>
+        <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div class="p-4 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block mb-1">Savings Rate</span><h4 class="text-xl font-bold text-emerald-600">8,9%</h4></div>
+            <div class="p-4 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block mb-1">Rasio Belanja Dapur</span><h4 class="text-xl font-bold text-slate-800">58,3%</h4></div>
+            <div class="p-4 bg-white rounded-xl shadow-sm"><span class="text-xs text-slate-400 block mb-1">Total Kekayaan Bersih</span><h4 class="text-xl font-bold text-blue-600">Rp 2.581.710</h4></div>
           </div>
         </div>
-      </div>
+      </section>
+
     </div>
   </main>
 
+  <!-- ================= MODAL: ADD TRANSACTION ================= -->
+  <div id="addModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-slate-900">Catat Transaksi Baru</h3>
+        <button onclick="closeModal('addModal')" class="text-slate-400 hover:text-slate-600">&times;</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-500 mb-1">Keterangan Barang / Transaksi</label>
+          <input type="text" id="inputDesc" placeholder="Misal: Kopi Susu, Bensin Pertalite" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600">
+        </div>
+        <div>
+          <label class="block text-slate-500 mb-1">Nominal (Rp)</label>
+          <input type="number" id="inputAmount" placeholder="25000" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-500 mb-1">Kategori</label>
+            <select id="inputCat" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600">
+              <option value="Makan & Jajan">Makan & Jajan</option>
+              <option value="Transportasi">Transportasi</option>
+              <option value="Tagihan & Utilitas">Tagihan & Utilitas</option>
+              <option value="Perawatan & Kesehatan">Perawatan & Kesehatan</option>
+              <option value="Keluarga">Nafkah Istri</option>
+              <option value="Pendidikan Anak">Sekolah Ridwan</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-500 mb-1">Dompet / Rekening</label>
+            <select id="inputWallet" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600">
+              <option value="Bank BCA (Utama)">Bank BCA</option>
+              <option value="Dompet Tunai (Cash)">Dompet Tunai (Cash)</option>
+              <option value="E-Wallet (GoPay/OVO)">GoPay / OVO</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeModal('addModal')" class="flex-1 py-2.5 bg-slate-100 text-slate-600 text-xs font-semibold rounded-xl hover:bg-slate-200 transition">Batal</button>
+        <button onclick="saveTransaction()" class="flex-1 py-2.5 bg-emerald-700 text-white text-xs font-semibold rounded-xl hover:bg-emerald-800 transition">Simpan Transaksi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
   <script>
     lucide.createIcons();
+
+    // Data Awal Transaksi
+    let transactions = [
+      { date: "02 Oct 2026", desc: "Jajan Warung Tegar", cat: "Makan & Jajan", wallet: "Bank BCA (Utama)", amount: 10000, type: "Pengeluaran" },
+      { date: "02 Oct 2026", desc: "Nabung Cadangan", cat: "Tabungan & Investasi", wallet: "Bank BCA (Utama)", amount: 500000, type: "Pengeluaran" },
+      { date: "02 Oct 2026", desc: "Belanja Bulanan Istri", cat: "Nafkah Istri", wallet: "Bank BCA (Utama)", amount: 300000, type: "Pengeluaran" },
+      { date: "02 Oct 2026", desc: "Sekolah Ridwan", cat: "Pendidikan Anak", wallet: "Bank BCA (Utama)", amount: 300000, type: "Pengeluaran" },
+      { date: "02 Oct 2026", desc: "Nafkah Dapur Istri", cat: "Nafkah Istri", wallet: "Bank BCA (Utama)", amount: 3000000, type: "Pengeluaran" },
+      { date: "01 Oct 2026", desc: "Cicilan Utang Tya", cat: "Transfer Saldo", wallet: "Bank BCA (Utama)", amount: 200000, type: "Transfer Masuk" },
+      { date: "01 Oct 2026", desc: "Gaji Pokok Payroll", cat: "Gaji Bulanan", wallet: "Bank BCA (Utama)", amount: 5624819, type: "Pemasukan" }
+    ];
+
+    // Data 9 Pos RAB Realistis
+    const budgets = [
+      { no: 1, name: "Nafkah Dapur Istri", cat: "Keluarga", target: 2800000, actual: 3000000 },
+      { no: 2, name: "Ngasih Mamah", cat: "Keluarga", target: 500000, actual: 500000 },
+      { no: 3, name: "Sekolah Ridwan", cat: "Keluarga", target: 450000, actual: 300000 },
+      { no: 4, name: "Listrik & Internet", cat: "Kebutuhan Pokok", target: 595600, actual: 0 },
+      { no: 5, name: "Bensin & Parkir", cat: "Kebutuhan Pokok", target: 250000, actual: 0 },
+      { no: 6, name: "Jajan di Luar", cat: "Gaya Hidup", target: 500000, actual: 10000 },
+      { no: 7, name: "Perawatan & Obat", cat: "Gaya Hidup", target: 300000, actual: 0 },
+      { no: 8, name: "Hobi Pribadi", cat: "Gaya Hidup", target: 104400, actual: 0 },
+      { no: 9, name: "Tabungan Cadangan", cat: "Masa Depan", target: 500000, actual: 500000 }
+    ];
+
+    // Data Saving Goals
+    const goals = [
+      { name: "Qurban", target: 3500000, current: 0, icon: "heart" },
+      { name: "Servis Besar Motor", target: 1000000, current: 0, icon: "tool" },
+      { name: "Liburan Akhir Tahun", target: 2500000, current: 0, icon: "plane" }
+    ];
+
+    // 1. Fungsi Switch Tab
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      const activeTab = document.getElementById('tab-' + tabId);
+      if (activeTab) activeTab.classList.add('active');
+
+      document.querySelectorAll('.nav-item').forEach(el => {
+        el.className = "nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium transition";
+      });
+      const activeBtn = document.getElementById('nav-' + tabId);
+      if (activeBtn) activeBtn.className = "nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl bg-emerald-700 text-white font-semibold shadow-sm transition";
+
+      if (tabId === 'transactions') renderTransactions();
+      if (tabId === 'budgets') renderBudgets();
+      if (tabId === 'goals') renderGoals();
+      lucide.createIcons();
+    }
+
+    // 2. Render Tabel Transaksi
+    function renderTransactions(filterText = "") {
+      const tbody = document.getElementById('txBody');
+      tbody.innerHTML = "";
+      transactions
+        .filter(t => t.desc.toLowerCase().includes(filterText.toLowerCase()) || t.cat.toLowerCase().includes(filterText.toLowerCase()))
+        .forEach(t => {
+          const isIncome = t.type === 'Pemasukan' || t.type === 'Transfer Masuk';
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-50/50 transition";
+          tr.innerHTML = `
+            <td class="py-3 text-slate-400">${t.date}</td>
+            <td class="py-3 font-semibold text-slate-800">${t.wallet}</td>
+            <td class="py-3 text-slate-900 font-bold">${t.desc}</td>
+            <td class="py-3 text-slate-500">${t.cat}</td>
+            <td class="py-3 text-right font-bold ${isIncome ? 'text-emerald-600' : 'text-rose-500'}">
+              ${isIncome ? '+' : '-'} Rp ${t.amount.toLocaleString('id-ID')}
+            </td>
+            <td class="py-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-semibold ${isIncome ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'}">${t.type}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+    }
+
+    // 3. Render 9 Pos RAB
+    function renderBudgets() {
+      const container = document.getElementById('rabListContainer');
+      container.innerHTML = "";
+      budgets.forEach(b => {
+        const pct = Math.min(100, Math.round((b.actual / b.target) * 100));
+        const isOver = b.actual > b.target;
+        const color = isOver ? 'bg-rose-500' : (pct >= 80 ? 'bg-amber-500' : 'bg-emerald-600');
+        const badge = isOver ? '<span class="text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md font-bold text-[10px]">⚠️ OVER</span>' : (b.actual === b.target ? '<span class="text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md font-bold text-[10px]">HABIS</span>' : '<span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md font-bold text-[10px]">AMAN</span>');
+
+        const div = document.createElement('div');
+        div.className = "p-4 border border-slate-100 rounded-2xl hover:border-slate-200 transition space-y-2";
+        div.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">${b.name} <span class="text-[10px] text-slate-400 font-normal">(${b.cat})</span></h4>
+              <p class="text-[11px] text-slate-500">Terpakai: Rp ${b.actual.toLocaleString('id-ID')} dari Rp ${b.target.toLocaleString('id-ID')}</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-bold text-slate-800">${pct}%</span>
+              ${badge}
+            </div>
+          </div>
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div class="h-full ${color} rounded-full" style="width: ${pct}%"></div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // 4. Render Celengan
+    function renderGoals() {
+      const container = document.getElementById('goalsContainer');
+      container.innerHTML = "";
+      goals.forEach(g => {
+        const pct = g.target > 0 ? Math.round((g.current / g.target) * 100) : 0;
+        const div = document.createElement('div');
+        div.className = "p-5 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-3";
+        div.innerHTML = `
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">🎯</div>
+          <div>
+            <h4 class="text-sm font-bold text-slate-900">${g.name}</h4>
+            <p class="text-xs text-slate-500 mt-0.5">Terkumpul: Rp ${g.current.toLocaleString('id-ID')} / Rp ${g.target.toLocaleString('id-ID')}</p>
+          </div>
+          <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+            <div class="h-full bg-emerald-600 rounded-full" style="width: ${pct}%"></div>
+          </div>
+          <span class="text-[11px] font-semibold text-emerald-700 block text-right">${pct}% Tercapai</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // 5. Modal Control
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // 6. Simpan Transaksi Baru
+    function saveTransaction() {
+      const desc = document.getElementById('inputDesc').value;
+      const amount = Number(document.getElementById('inputAmount').value);
+      const cat = document.getElementById('inputCat').value;
+      const wallet = document.getElementById('inputWallet').value;
+
+      if (!desc || !amount) { alert("Lengkapi keterangan dan nominal!"); return; }
+
+      const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      transactions.unshift({ date: today, desc, cat, wallet, amount, type: "Pengeluaran" });
+
+      closeModal('addModal');
+      document.getElementById('inputDesc').value = "";
+      document.getElementById('inputAmount').value = "";
+
+      alert("Transaksi berhasil dicatat ke Dashboard!");
+      renderTransactions();
+    }
+
+    function handleSearch(val) { renderTransactions(val); }
+
+    // Inisialisasi Grafik Awal
     const ctxDonut = document.getElementById('spendingDonut').getContext('2d');
     new Chart(ctxDonut, {
       type: 'doughnut',
-      data: {
-        datasets: [{
-          data: [77, 11, 2, 10],
-          backgroundColor: ['#047857', '#3b82f6', '#f59e0b', '#6366f1'],
-          borderWidth: 0,
-          cutout: '75%'
-        }]
-      },
+      data: { datasets: [{ data: [73, 14, 1, 12], backgroundColor: ['#047857', '#3b82f6', '#f59e0b', '#6366f1'], borderWidth: 0, cutout: '75%' }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
     });
 
@@ -232,12 +551,7 @@
       type: 'bar',
       data: {
         labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
-        datasets: [{
-          data: [4.2, 4.5, 4.8, 5.1, 5.6, 5.2],
-          backgroundColor: '#059669',
-          borderRadius: 8,
-          barThickness: 20
-        }]
+        datasets: [{ data: [4.2, 4.5, 4.8, 5.1, 5.6, 5.2], backgroundColor: '#059669', borderRadius: 8, barThickness: 20 }]
       },
       options: {
         responsive: true,
@@ -249,6 +563,8 @@
         }
       }
     });
+
+    renderTransactions();
   </script>
 </body>
 </html>
